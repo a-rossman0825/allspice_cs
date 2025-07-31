@@ -27,4 +27,26 @@ CREATE TABLE recipes(
   JOIN accounts ON recipes.creator_id = accounts.id
   WHERE recipes.id = 1;
 
-  
+  INSERT INTO
+  recipes (
+    title,
+    instructions,
+    img,
+    category,
+    creator_id
+    )
+  VALUES
+  (
+    @title,
+    @instructions, 
+    @imgUrl, 
+    @category, 
+    @creatorId
+    );
+
+  SELECT
+    recipes.*,
+    accounts.*
+  FROM recipes
+  JOIN accounts ON recipes.creator_id = accounts.id
+  WHERE recipes.id = LAST_INSERT_ID();
