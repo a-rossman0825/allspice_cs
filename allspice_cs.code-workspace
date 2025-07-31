@@ -1,16 +1,16 @@
 {
   "folders": [
     {
+      "name": "allspice_cs",
+      "path": "."
+    },
+    {
       "name": "client",
       "path": "client"
     },
     {
       "name": "server",
       "path": "server"
-    },
-    {
-      "name": "allspice_cs",
-      "path": "."
     }
   ]
 }
