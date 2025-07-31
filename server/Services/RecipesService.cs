@@ -21,7 +21,8 @@ public class RecipesService
 
   public List<Recipe> GetRecipes()
   {
-    throw new NotImplementedException();
+    List<Recipe> recipes = _repo.GetRecipes();
+    return recipes;
   }
 
   public Recipe GetRecipeById(int recipeId)

@@ -31,13 +31,21 @@ public class RecipesRepository
       JOIN accounts ON recipes.creator_id = accounts.id
       WHERE recipes.id = LAST_INSERT_ID()
       ;";
-    Recipe recipe = _db.Query<Recipe, Account, Recipe>(sql, MapCreator, recipeData).SingleOrDefault();
+    Recipe recipe = _db.Query<Recipe, Profile, Recipe>(sql, MapCreator, recipeData).SingleOrDefault();
     return recipe;
   }
 
   public List<Recipe> GetRecipes()
   {
-    throw new Exception();
+    string sql = @"
+    SELECT
+      recipes.*,
+      accounts.*
+    FROM recipes
+    JOIN accounts ON recipes.creator_id = accounts.id
+    ;";
+    List<Recipe> recipes = _db.Query<Recipe, Profile, Recipe>(sql, MapCreator).ToList();
+    return recipes;
   }
 
   public Recipe GetRecipeById(int recipeId)
@@ -57,5 +65,4 @@ public class RecipesRepository
     _db.Execute(sql, new { recipeId });
 
   }
-
 }
