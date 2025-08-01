@@ -50,12 +50,32 @@ public class RecipesRepository
 
   public Recipe GetRecipeById(int recipeId)
   {
-    throw new Exception();
+    string sql = @"
+    SELECT
+      recipes.*,
+      accounts.*
+    FROM recipes
+    JOIN accounts ON recipes.creator_id = accounts.id
+    WHERE recipes.id = @recipeId
+    ;";
+
+    Recipe recipe = _db.Query<Recipe, Profile, Recipe>(sql, MapCreator, new { recipeId }).SingleOrDefault();
+    return recipe;
   }
 
   internal void UpdateRecipe(Recipe recipeUpdate)
   {
-    throw new Exception();
+    string sql = @"
+    UPDATE recipes SET
+      title = @title,
+      instructions = @instructions,
+      img = @img,
+      category = @category,
+      creator_id = @creatorId
+    WHERE id = @id
+    ;";
+    int rowsAffected = _db.Execute(sql, recipeUpdate);
+    if (rowsAffected > 1) throw new Exception($"oh no, you fucked up! rows affected: { rowsAffected }");
   }
 
   internal void DeleteRecipe(int recipeId)
