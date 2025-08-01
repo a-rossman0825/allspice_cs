@@ -1,6 +1,4 @@
 
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-
 namespace allspice_cs.Services;
 
 public class RecipesService

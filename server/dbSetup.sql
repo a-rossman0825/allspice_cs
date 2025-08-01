@@ -50,3 +50,21 @@ CREATE TABLE recipes(
   FROM recipes
   JOIN accounts ON recipes.creator_id = accounts.id
   WHERE recipes.id = LAST_INSERT_ID();
+
+  CREATE TABLE ingredients(
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  name VARCHAR(255) NOT NULL,
+  quantity VARCHAR(255) NOT NULL,
+  recipe_id INT NOT NULL,
+  FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
+  ) default charset utf8mb4;
+
+  DROP TABLE ingredient;
+
+
+  SELECT
+    ingredients.*
+    FROM ingredients
+    WHERE ingredients.id = 1;
