@@ -15,13 +15,22 @@ public class IngredientsController : ControllerBase
     _auth = auth;
   }
 
-  [HttpPost]
-  public ActionResult<Ingredient> AddIngredient([FromBody] Ingredient ingredientData)
+  [HttpPost, Authorize]
+  public async Task<ActionResult<Ingredient>> AddIngredient([FromBody] Ingredient ingredientData)
+  {
+    Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
+    Ingredient ingredient = _service.AddIngredient(ingredientData, userInfo);
+    return ingredient;
+  }
+
+  [HttpDelete("{ingredientId}"), Authorize]
+  public async Task<ActionResult<string>> DeleteIngredient(int ingredientId)
   {
     try
     {
-      Ingredient ingredient = _service.AddIngredient(ingredientData);
-      return Ok(ingredient);
+      Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
+      string deleteMsg = _service.DeleteIngredient(ingredientId, userInfo);
+      return Ok(deleteMsg);
     }
     catch (Exception exception)
     {

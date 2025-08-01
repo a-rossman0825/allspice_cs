@@ -67,7 +67,7 @@ CREATE TABLE recipes(
   SELECT
     ingredients.*
     FROM ingredients
-    WHERE ingredients.id = 1;
+    WHERE ingredients.id = 2;
 
   SELECT
       recipes.id AS recipeId,
@@ -76,3 +76,11 @@ CREATE TABLE recipes(
   FROM ingredients
   JOIN recipes ON ingredients.recipe_id = recipes.id
   WHERE recipe_id = 1;
+
+  SELECT *
+  FROM ingredients
+  WHERE recipe_id = 45;
+
+  DELETE FROM
+    ingredients
+    WHERE id = 17 LIMIT 1;

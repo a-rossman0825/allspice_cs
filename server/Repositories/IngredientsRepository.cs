@@ -41,13 +41,12 @@ public class IngredientsRepository
   public List<Ingredient> GetIngredientsForRecipe(int recipeId)
   {
     string sql = @"
-    SELECT
-        recipes.id AS recipeId,
-        ingredients.*,
-        recipes.*
+    SELECT 
+      ingredients.*,
+      recipes.*
     FROM ingredients
     JOIN recipes ON ingredients.recipe_id = recipes.id
-    WHERE recipe_id = @recipeId
+    WHERE ingredients.recipe_id = @recipeId
     ;";
 
     List<Ingredient> ingredients = _db.Query(sql, (Ingredient ingredient, Recipe recipe) =>
@@ -60,6 +59,21 @@ public class IngredientsRepository
 
   public void DeleteIngredient(int ingredientId)
   {
-    throw new NotImplementedException();
+    string sql = "DELETE FROM ingredients WHERE ingredients.id = @IngredientId LIMIT 1;";
+    _db.Execute(sql, new { IngredientId = ingredientId });
+
+  }
+
+  internal Ingredient FindIngredientById(int ingredientId)
+  {
+    string sql = @"
+    SELECT
+      ingredients.*
+    FROM ingredients
+    WHERE id = @ingredientId
+    ;";
+
+    Ingredient ingredient = _db.Query<Ingredient>(sql, new { IngredientId = ingredientId }).SingleOrDefault();
+    return ingredient;
   }
 }
