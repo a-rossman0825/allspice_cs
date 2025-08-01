@@ -13,8 +13,13 @@ public class IngredientsService
 
   public Ingredient AddIngredient(Ingredient ingredientData)
   {
-    
     Ingredient ingredient = _repo.AddIngredient(ingredientData);
     return ingredient;
+  }
+
+  public List<Ingredient> GetIngredientsForRecipe(int recipeId)
+  {
+    List<Ingredient> ingredients = _repo.GetIngredientsForRecipe(recipeId);
+    return ingredients;
   }
 }

@@ -37,4 +37,29 @@ public class IngredientsRepository
     }, ingredientData).SingleOrDefault();
     return ingredient;
   }
+
+  public List<Ingredient> GetIngredientsForRecipe(int recipeId)
+  {
+    string sql = @"
+    SELECT
+        recipes.id AS recipeId,
+        ingredients.*,
+        recipes.*
+    FROM ingredients
+    JOIN recipes ON ingredients.recipe_id = recipes.id
+    WHERE recipe_id = @recipeId
+    ;";
+
+    List<Ingredient> ingredients = _db.Query(sql, (Ingredient ingredient, Recipe recipe) =>
+    {
+      ingredient.RecipeId = recipe.Id;
+      return ingredient;
+    }, new { recipeId }).ToList();
+    return ingredients;
+  }
+
+  public void DeleteIngredient(int ingredientId)
+  {
+    throw new NotImplementedException();
+  }
 }

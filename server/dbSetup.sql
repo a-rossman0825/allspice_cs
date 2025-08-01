@@ -68,3 +68,11 @@ CREATE TABLE recipes(
     ingredients.*
     FROM ingredients
     WHERE ingredients.id = 1;
+
+  SELECT
+      recipes.id AS recipeId,
+      ingredients.*,
+      recipes.*
+  FROM ingredients
+  JOIN recipes ON ingredients.recipe_id = recipes.id
+  WHERE recipe_id = 1;
