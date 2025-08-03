@@ -51,7 +51,7 @@ CREATE TABLE recipes(
   JOIN accounts ON recipes.creator_id = accounts.id
   WHERE recipes.id = LAST_INSERT_ID();
 
-  CREATE TABLE ingredients(
+CREATE TABLE ingredients(
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -84,3 +84,35 @@ CREATE TABLE recipes(
   DELETE FROM
     ingredients
     WHERE id = 17 LIMIT 1;
+
+CREATE TABLE favorites(
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  recipe_id INT NOT NULL,
+  account_id VARCHAR(255) NOT NULL,
+  FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE,
+  FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
+) default charset utf8mb4;
+
+
+SELECT
+    favorites.id AS favoriteId,
+    favorites.account_id,
+    recipes.*
+  FROM favorites
+  JOIN recipes ON favorites.recipe_id = recipe.id
+  WHERE account_id = '//<Insert Account Id for testing>//';
+
+SELECT 
+    favorites.id AS favoriteId
+    favorites.account_id,
+    recipes.*,
+    accounts.*
+  FROM favorites
+  JOIN albums ON favorites.recipe_id = recipes.id
+  JOIN accounts ON recipes.creator_id = accounts.id
+  WHERE account_id = '//<Insert Account Id for testing>//';
+
+INSERT INTO favorites (recipe_id, account_id)
+    VALUES (2, '//<Insert Account Id for testing>//');
