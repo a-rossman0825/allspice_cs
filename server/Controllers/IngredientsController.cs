@@ -18,9 +18,16 @@ public class IngredientsController : ControllerBase
   [HttpPost, Authorize]
   public async Task<ActionResult<Ingredient>> AddIngredient([FromBody] Ingredient ingredientData)
   {
-    Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
-    Ingredient ingredient = _service.AddIngredient(ingredientData, userInfo);
-    return ingredient;
+    try
+    {
+      Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
+      Ingredient ingredient = _service.AddIngredient(ingredientData, userInfo);
+      return ingredient;
+    }
+    catch (Exception exception)
+    {
+      return BadRequest(exception.Message);
+    }
   }
 
   [HttpDelete("{ingredientId}"), Authorize]
