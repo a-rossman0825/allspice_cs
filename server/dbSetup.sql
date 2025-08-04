@@ -116,3 +116,6 @@ SELECT
 
 INSERT INTO favorites (recipe_id, account_id)
     VALUES (2, '//<Insert Account Id for testing>//');
+
+DELETE FROM recipes
+WHERE id > 25;

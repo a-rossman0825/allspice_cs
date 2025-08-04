@@ -1,5 +1,10 @@
 <script setup>
+import { Recipe } from '@/models/Recipe.js';
 import { Modal } from 'bootstrap';
+
+defineProps({
+  recipe: { type: Recipe, required: true }
+})
 
 function openDetailsPage(){
   Modal.getOrCreateInstance('#recipeDetailsModal').show();
@@ -7,16 +12,19 @@ function openDetailsPage(){
 </script>
 
 <template>
-<div class="shadow rounded position-relative card-wrapper">
+<div v-if="recipe" class="shadow rounded position-relative card-wrapper">
   <!-- TODO ROUTERLINK TO RECIPE DETAILS PAGE -->
-  <img @click="openDetailsPage()" src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" class="img-fluid recipe-img rounded card-shadow">
-  <!-- TODO BUTTON V-IF FAVORITED? @CLICK -->
+  <img @click="openDetailsPage()" :src="recipe.imgUrl" :alt="`picture of ${recipe.creator.name}'s ${recipe.title} recipe`" class="img-fluid recipe-img rounded card-shadow">
+  <!-- TODO BUTTON V-IF FAVORITED? && Account? @CLICK -->
   <button class="heart-btn text-box btn">
     <i class="mdi mdi-heart fs-3 text-shadow-light"></i>
   </button>
+  <!-- <button class="heart-btn text-box btn">
+    <i class="mdi mdi-heart-outline fs-3 text-shadow-light"></i>
+  </button> -->
   <!-- TODO BUTTON TO FILTER TO SIMILAR -->
-  <button class="btn rounded-pill category-btn text-box text-shadow">Lunch</button>
-  <div class="col-11 text-box title-btn">   <h2 class="">hello world</h2>
+  <button class="btn rounded-pill category-btn text-box text-shadow">{{ recipe?.category }}</button>
+  <div class="col-11 text-box title-btn">   <h2 class="fs-5 pt-2">{{ recipe.title }}</h2>
   </div>
 </div>
 </template>

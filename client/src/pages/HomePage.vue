@@ -4,13 +4,20 @@ import ModalWrapper from '@/components/ModalWrapper.vue';
 import RecipeCard from '@/components/RecipeCard.vue';
 import RecipeDetailsModal from '@/components/RecipeDetailsModal.vue';
 import { AuthService } from '@/services/AuthService.js';
+import { recipesService } from '@/services/recipesService.js';
+import { logger } from '@/utils/Logger.js';
+import { Pop } from '@/utils/Pop.js';
 import { loadState, saveState } from '@/utils/Store.js';
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 
 const identity = computed(() => AppState.identity);
 const account = computed(() => AppState.account);
+const recipes = computed(() => AppState.recipes);
 
+onMounted(()=> { 
+  getRecipes();
+});
 
 function login(){
   AuthService.loginWithRedirect();
@@ -31,6 +38,15 @@ watch(theme, () => {
   saveState('theme', theme.value)
 }, { immediate: true })
 
+async function getRecipes() {
+  try {
+    await recipesService.getRecipes();
+  }
+  catch (error){
+    Pop.error(error);
+    logger.error('Could not GET Recipes', error);
+  }
+}
 
 </script>
 
@@ -70,7 +86,7 @@ watch(theme, () => {
         <h2 class="h1">And Their Cooking</h2>
       </div>
       <!-- SECTION FILTER BUTTONS -->
-      <div class="row justify-content-center position-relative pt-5">
+      <div v-if="account" class="row justify-content-center position-relative pt-5">
         <div class="col-12 col-sm-6 col-lg-5 ps-2  pt-3 pb-2 bg-light text-center card-shadow rounded position-absolute nav-card">
           <div class="row d-flex align-items-center justify-content-between text-success title-font">
             <div class="col-4">
@@ -86,22 +102,32 @@ watch(theme, () => {
           </div>
         </div>
       </div>
+      <div v-else class="row justify-content-center position-relative pt-5">
+        <div class="col-12 col-sm-6 col-lg-5 ps-2  pt-3 pb-2 bg-light text-center card-shadow rounded position-absolute nav-card">
+          <div class="row d-flex align-items-center justify-content-between text-success title-font">
+            <div class="col-12">
+              <!-- TODO FILTER FOR HOME (ALL RECIPES), MY RECIPES, AND FAVORITE RECIPES -->
+              <h2 @click="login()" role="button" class="card-size">Login To View Your Recipes! <span class="mdi mdi-login"></span></h2>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- !SECTION -->
     </div>
     <!-- !SECTION -->
   </div>
   <!-- SECTION RECIPE CARDS -->
   <div class="container mt-5">
-    <div class="row mt-5 justify-content-center">
-      <div v-for="i in 9" :key="i" class="recipe-card-container g-5">
-        <RecipeCard />
+    <div class="row mt-5 justify-content-center mb-5">
+      <div v-for="recipe in recipes" :key="`homepage-getRecipes-${recipe.id}`" class="recipe-card-container g-5">
+        <RecipeCard :recipe="recipe"/>
       </div>
     </div>
   </div>
   <!-- !SECTION -->
   <!-- SECTION Add Recipe Button -->
   <!-- TODO CREATE RECIPE BUTTON -->
-  <button class="add-recipe-btn btn btn-success rounded-circle">
+  <button v-if="account" class="add-recipe-btn btn btn-success rounded-circle">
     <i class="mdi mdi-plus-thick fs-2"></i>
   </button>
   <!-- !SECTION -->
