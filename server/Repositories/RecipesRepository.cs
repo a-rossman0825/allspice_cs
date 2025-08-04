@@ -43,6 +43,7 @@ public class RecipesRepository
       accounts.*
     FROM recipes
     JOIN accounts ON recipes.creator_id = accounts.id
+    LIMIT 10 OFFSET 0
     ;";
     List<Recipe> recipes = _db.Query<Recipe, Profile, Recipe>(sql, MapCreator).ToList();
     return recipes;

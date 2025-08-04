@@ -119,3 +119,10 @@ INSERT INTO favorites (recipe_id, account_id)
 
 DELETE FROM recipes
 WHERE id > 25;
+
+  SELECT
+    recipes.*,
+    accounts.*
+  FROM recipes
+  JOIN accounts ON recipes.creator_id = accounts.id
+  WHERE recipes.id = ;

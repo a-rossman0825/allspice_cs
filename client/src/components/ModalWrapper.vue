@@ -12,13 +12,8 @@ defineProps({
   <div class="modal fade text-secondary" :id="modalId" tabindex="-1" :aria-labelledby="`${modalId}Label`" aria-hidden="true">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5 main-font" :id="`${modalId}Label`">
-            {{ modalHeader }}
-          </h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
+        <div class="modal-body p-0 ms-2 position-relative">
+          <button type="button" class="btn-close position-absolute" data-bs-dismiss="modal" aria-label="Close"></button>
           <slot></slot>
         </div>
       </div>
@@ -29,4 +24,7 @@ defineProps({
 
 <style lang="scss" scoped>
 
+.btn-close {
+  right: 0;
+}
 </style>

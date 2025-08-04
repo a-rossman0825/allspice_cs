@@ -15,6 +15,8 @@ const identity = computed(() => AppState.identity);
 const account = computed(() => AppState.account);
 const recipes = computed(() => AppState.recipes);
 
+// TODO PAGINATION - 15 ITEMS PER PAGE  
+
 onMounted(()=> { 
   getRecipes();
 });

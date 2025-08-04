@@ -1,12 +1,14 @@
 <script setup>
+import { AppState } from '@/AppState.js';
 import { Recipe } from '@/models/Recipe.js';
 import { Modal } from 'bootstrap';
 
-defineProps({
+const prop = defineProps({
   recipe: { type: Recipe, required: true }
 })
 
 function openDetailsPage(){
+  AppState.activeRecipe = prop.recipe;
   Modal.getOrCreateInstance('#recipeDetailsModal').show();
 }
 </script>
@@ -24,7 +26,7 @@ function openDetailsPage(){
   </button> -->
   <!-- TODO BUTTON TO FILTER TO SIMILAR -->
   <button class="btn rounded-pill category-btn text-box text-shadow">{{ recipe?.category }}</button>
-  <div class="col-11 text-box title-btn">   <h2 class="fs-5 pt-2">{{ recipe.title }}</h2>
+  <div class="col-11 text-box title-btn"><h2 class="fs-5 pt-2">{{ recipe.title }}</h2>
   </div>
 </div>
 </template>

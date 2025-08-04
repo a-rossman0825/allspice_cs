@@ -31,7 +31,7 @@ public class RecipesController : ControllerBase
   }
 
   [HttpGet]
-  public ActionResult<List<Recipe>> GetAllRecipes()
+  public ActionResult<List<Recipe>> GetAllRecipes(int limit, int offset)
   {
     try
     {
