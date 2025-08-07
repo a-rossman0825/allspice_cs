@@ -1,10 +1,11 @@
 <script setup >
 import { AppState } from '@/AppState.js';
+import IngredientModal from '@/components/IngredientModal.vue';
 import ModalWrapper from '@/components/ModalWrapper.vue';
 import RecipeCard from '@/components/RecipeCard.vue';
 import RecipeDetailsModal from '@/components/RecipeDetailsModal.vue';
 import { AuthService } from '@/services/AuthService.js';
-import { recipesService } from '@/services/recipesService.js';
+import { recipesService } from '@/services/RecipesService.js';
 import { logger } from '@/utils/Logger.js';
 import { Pop } from '@/utils/Pop.js';
 import { loadState, saveState } from '@/utils/Store.js';
@@ -74,7 +75,7 @@ async function getRecipes() {
         </form>
         <!-- TODO LOGOUT/EDIT PROFILE MODAL ON PFP CLICK -->
         <i v-if="!identity && !account" @click="login()" role="button" class="ms-2 mdi mdi-login text-light me-3 fs-1"></i>
-        <img v-else role="button" :src="account?.picture" :alt="`${identity?.name}'s profile picture`" class="profile-img" id="dropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <img v-else role="button" :src="identity?.picture" :alt="`${identity?.name}'s profile picture`" class="profile-img" id="dropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
         <div class="dropdown-menu text-start dropdown-size ps-2 bg-secondary" aria-labelledby="dropdownMenu">
             <!-- TODO CREATE ACCOUNT INFO EDIT MODAL -->
             <button class="dropdown-item p-0 mt-1 fs-4" type="button">Edit Profile</button>
@@ -93,13 +94,13 @@ async function getRecipes() {
           <div class="row d-flex align-items-center justify-content-between text-success title-font">
             <div class="col-4">
               <!-- TODO FILTER FOR HOME (ALL RECIPES), MY RECIPES, AND FAVORITE RECIPES -->
-              <h2 class="card-size">Home</h2>
+              <h2 role="button" class="card-size filter-btn">Home</h2>
             </div>
             <div class="col-4">
-              <h2 class="card-size">My Recipes</h2>
+              <h2 role="button" class="card-size filter-btn">My Recipes</h2>
             </div>
             <div class="col-4">
-              <h2 class="card-size">Favorites</h2>
+              <h2 role="button" class="card-size filter-btn">Favorites</h2>
             </div>
           </div>
         </div>
@@ -109,7 +110,7 @@ async function getRecipes() {
           <div class="row d-flex align-items-center justify-content-between text-success title-font">
             <div class="col-12">
               <!-- TODO FILTER FOR HOME (ALL RECIPES), MY RECIPES, AND FAVORITE RECIPES -->
-              <h2 @click="login()" role="button" class="card-size">Login To View Your Recipes! <span class="mdi mdi-login"></span></h2>
+              <h2 @click="login()" role="button" class="card-size filter-btn">Login To View Your Recipes! <span class="mdi mdi-login"></span></h2>
             </div>
           </div>
         </div>
@@ -120,7 +121,7 @@ async function getRecipes() {
   </div>
   <!-- SECTION RECIPE CARDS -->
   <div class="container mt-5">
-    <div class="row mt-5 justify-content-center mb-5">
+    <div class="row mt-5 justify-content-center justify-content-xl-around mb-5">
       <div v-for="recipe in recipes" :key="`homepage-getRecipes-${recipe.id}`" class="recipe-card-container g-5">
         <RecipeCard :recipe="recipe"/>
       </div>
@@ -137,6 +138,9 @@ async function getRecipes() {
   <!-- SECTION MODAL WRAPPERS -->
   <ModalWrapper modalId="recipeDetailsModal" modalHeader="recipe details">
     <RecipeDetailsModal />
+  </ModalWrapper>
+  <ModalWrapper modalId="ingredientModal" modalHeader="Add an ingredient...">
+    <IngredientModal />
   </ModalWrapper>
   <!-- !SECTION -->
 </template>
@@ -205,6 +209,16 @@ async function getRecipes() {
   bottom: 20px;
 }
 
+.filter-btn {
+
+  &:hover {
+    color: #1cae6a;
+  }
+
+  &:active {
+    color: #055e35;
+  }
+}
 
 @media (min-width: 424px) and (max-width: 769px) {
   .card-size {

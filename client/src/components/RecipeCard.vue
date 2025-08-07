@@ -19,10 +19,10 @@ function openDetailsPage(){
   <img @click="openDetailsPage()" :src="recipe.imgUrl" :alt="`picture of ${recipe.creator.name}'s ${recipe.title} recipe`" class="img-fluid recipe-img rounded card-shadow">
   <!-- TODO BUTTON V-IF FAVORITED? && Account? @CLICK -->
   <button class="heart-btn text-box btn">
-    <i class="mdi mdi-heart fs-3 text-shadow-light"></i>
+    <i class="mdi mdi-heart-outline fs-3 text-shadow-light"></i>
   </button>
   <!-- <button class="heart-btn text-box btn">
-    <i class="mdi mdi-heart-outline fs-3 text-shadow-light"></i>
+    <i class="mdi mdi-heart fs-3 text-shadow-light"></i>
   </button> -->
   <!-- TODO BUTTON TO FILTER TO SIMILAR -->
   <button class="btn rounded-pill category-btn text-box text-shadow">{{ recipe?.category }}</button>
@@ -40,8 +40,30 @@ function openDetailsPage(){
     object-fit: cover;
   }
 
+  .card-wrapper {
+
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      cursor: pointer;
+      transform: translateY(-5px);
+    }
+
+    &:active {
+      transform: translateY(5px);
+    }
+  }
+
   .card-shadow {
   box-shadow: 0.4rem 0.6rem 1rem rgba(0, 0, 0, .4);
+  transition: all .2s ease-in-out;
+
+  &:hover {
+    box-shadow: 0.4rem 0.6rem 1rem rgba(40, 235, 88, 0.8);
+  }
+  &:active {
+    box-shadow: 0.2rem 0.2rem 1rem rgba(0, 0, 0, .8);
+  }
   }
 
   .category-btn {

@@ -8,3 +8,4 @@ public class Ingredient : DbItem<int>
   public string Quantity { get; set; }
   public int RecipeId { get; set; }
 }
+
